@@ -21,5 +21,11 @@ kubectl  argo rollouts list rollouts
 kubectl  argo rollouts get  rollouts vote
 ```
 
+kubectl port-forward service/vote 8081:30100
 
+
+
+```
+kubectl get all -n ingress-nginx
+```
 
