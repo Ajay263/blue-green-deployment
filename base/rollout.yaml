@@ -1,36 +1,25 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout  # Different kind!
 metadata:
-  creationTimestamp: null
-  labels:
-    app: vote
-    tier: front
   name: vote
 spec:
   replicas: 4
   selector:
     matchLabels:
       app: vote
-  strategy: 
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 2
   template:
     metadata:
       labels:
         app: vote
-        tier: front
     spec:
       containers:
-      - image: schoolofdevops/vote:v1
-        name: vote
-        imagePullPolicy: Always
-        resources: 
-          requests:
-            cpu: "50m"
-            memory: "64Mi"
-          limits: 
-            cpu: "250m"
-            memory: "128Mi"
-
+      - name: vote
+        image: schoolofdevops/vote:v2
+        ports:
+        - containerPort: 80
+  strategy:
+    blueGreen:  # Advanced strategy!
+      autoPromotionEnabled: true
+      autoPromotionSeconds: 30
+      activeService: vote
+      previewService: vote-preview
