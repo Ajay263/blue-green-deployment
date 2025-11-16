@@ -28,4 +28,8 @@ kubectl port-forward service/vote 8081:30100
 ```
 kubectl get all -n ingress-nginx
 ```
+  ### Current Admin password
 
+  ```
+   kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+   ```
